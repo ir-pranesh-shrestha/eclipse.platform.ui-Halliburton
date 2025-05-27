@@ -1,8 +1,6 @@
 name: Halliburton x InvisiRisk
 
 on:
-  schedule:
-    - cron: '55 3 * * *'
   workflow_dispatch:
 
 permissions:
@@ -22,27 +20,12 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-
-      - name: Set up Git
-        run: |
-         git config user.name "ir-pranesh-shrestha"
-          git config user.email "pranesh.shrestha@invisirisk.com"
-          
-      - name: Add upstream and sync fork
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_PAT }}
-        run: |
-          git remote add upstream https://github.com/Halliburton-Landmark/eclipse.platform.ui.git
-          git fetch upstream
-          git checkout dsg-4_30
-          git merge upstream/dsg-4_30 --no-edit
-          git push https://x-access-token:${GITHUB_TOKEN}@github.com/ir-pranesh-shrestha/eclipse.platform.ui-Halliburton dsg-4_30
           
       - name: Setup PSE
         uses: invisirisk/pse-action@latest
         with:
-          api_url: "https://app.invisirisk.com"
-          app_token: ${{ secrets.IR_API_KEY_PROD }}
+          api_url: "https://app.dev.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY_DEV }}
 
       - name: Set up JDK
         uses: actions/setup-java@v4
